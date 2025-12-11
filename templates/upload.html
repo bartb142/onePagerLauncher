@@ -1,29 +1,62 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Upload site</title>
+  <meta charset="UTF-8">
+  <title>Upload Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
-<body>
-  <h2>Create new one-pager</h2>
 
-  <form action="/upload" method="post" enctype="multipart/form-data">
+<body class="bg-gray-100 min-h-screen p-6">
 
-    <label>Custom slug (optional):</label><br>
-    <input type="text" name="custom_slug" placeholder="leave blank to auto-generate"><br><br>
+  <div class="max-w-xl mx-auto bg-white shadow-md rounded-xl p-6">
+    <h2 class="text-2xl font-bold text-blue-600 mb-4">Upload New Page</h2>
 
-    <label>index.html (required):</label><br>
-    <input type="file" name="html_file" accept=".html" required><br><br>
+    <form 
+      hx-post="/upload" 
+      hx-target="body" 
+      enctype="multipart/form-data"
+      class="space-y-4"
+    >
 
-    <label>CSS files (can select multiple):</label><br>
-    <input type="file" name="css_files" accept=".css" multiple><br><br>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">index.html</label>
+        <input 
+          type="file" 
+          name="html_file"
+          class="w-full"
+        >
+      </div>
 
-    <label>Image assets (can select multiple):</label><br>
-    <input type="file" name="img_files" accept="image/*" multiple><br><br>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">CSS files</label>
+        <input 
+          type="file" 
+          name="css_files"
+          multiple
+          class="w-full"
+        >
+      </div>
 
-    <button type="submit">Create page</button>
-  </form>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Image assets</label>
+        <input 
+          type="file" 
+          name="img_files"
+          multiple
+          class="w-full"
+        >
+      </div>
+
+      <button
+        type="submit"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition"
+      >
+        Upload
+      </button>
+
+    </form>
+  </div>
 
 </body>
 </html>

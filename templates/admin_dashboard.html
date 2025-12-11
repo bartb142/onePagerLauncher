@@ -1,24 +1,66 @@
-<!doctype html>
-<html>
-<head><meta charset="utf-8"><title>Admin dashboard</title></head>
-<body>
-  <h2>Admin dashboard</h2>
-  <p><a href="/admin/logout">Logout</a></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-  <h3>Pages</h3>
-  <p><a href="/upload">Create new page</a></p>
-  <ul>
-    {% for slug in slugs %}
-      <li>
-        <a href="/p/{{ slug }}" target="_blank">{{ slug }}</a>
-        |
-        <a href="/admin/edit/{{ slug }}">Edit</a>
-        |
-        <form action="/admin/delete_page/{{ slug }}" method="post" style="display:inline;" onsubmit="return confirm('Delete entire page {{ slug }}?')">
-          <button type="submit">Delete page</button>
-        </form>
-      </li>
-    {% endfor %}
-  </ul>
+<body class="bg-gray-100 p-6 min-h-screen">
+
+  <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-xl p-6">
+
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-blue-600">Admin Dashboard</h1>
+      <a
+        href="/admin/logout"
+        class="text-blue-600 hover:text-blue-800 font-medium"
+      >
+        Logout
+      </a>
+    </div>
+
+    <h2 class="text-xl font-semibold mt-6 mb-2 text-gray-700">Pages</h2>
+
+    <a
+      href="/admin/create"
+      class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold mb-4"
+    >+ Create New Page</a>
+
+    <div class="space-y-3">
+      {% for slug in slugs %}
+      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 flex justify-between items-center">
+
+        <div>
+          <div class="text-lg font-medium">{{ slug }}</div>
+          <a 
+            href="/p/{{ slug }}" 
+            target="_blank"
+            class="text-blue-600 hover:underline text-sm"
+          >
+            View Public Page
+          </a>
+        </div>
+
+        <div class="space-x-2">
+          <a 
+            href="/admin/edit/{{ slug }}"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg"
+          >Edit</a>
+
+          <form method="post" action="/admin/delete_page/{{ slug }}" class="inline">
+            <button
+              type="submit"
+              class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg"
+            >Delete</button>
+          </form>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
 </body>
 </html>

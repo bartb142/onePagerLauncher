@@ -1,53 +1,106 @@
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Edit {{ slug }}</title></head>
-<body>
-  <h2>Edit page: {{ slug }}</h2>
-  <p><a href="/admin">Back</a> | <a href="/p/{{ slug }}" target="_blank">View</a></p>
+<head>
+  <meta charset="utf-8">
+  <title>Edit {{ slug }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-  <h3>index.html</h3>
-  <form action="/admin/edit/{{ slug }}" method="post">
-    <textarea name="html_content" style="width:100%;height:300px;">{{ index_html }}</textarea><br>
-    <button type="submit">Save index.html</button>
-  </form>
+<body class="bg-gray-100 min-h-screen p-8">
 
-  <h3>Upload more assets</h3>
-  <form action="/admin/upload_assets/{{ slug }}" method="post" enctype="multipart/form-data">
-    <label>CSS files:</label><br>
-    <input type="file" name="css_files" multiple accept=".css"><br><br>
-    <label>Image files:</label><br>
-    <input type="file" name="img_files" multiple accept="image/*"><br><br>
-    <button type="submit">Upload assets</button>
-  </form>
+  <div class="max-w-4xl mx-auto bg-white shadow rounded-xl p-8">
 
-  <h3>CSS files</h3>
-  <ul>
-    {% for f in css_files %}
-      <li>
-        {{ f }}
-        <a href="/static/{{ slug }}/css/{{ f }}" target="_blank">[open]</a>
-        <form action="/admin/delete_asset/{{ slug }}" method="post" style="display:inline;">
+    <h2 class="text-3xl font-bold text-blue-600 mb-4">Edit Page: {{ slug }}</h2>
+
+    <p class="mb-6 space-x-4">
+      <a href="/admin" class="text-blue-500 hover:underline">Back</a>
+      <a href="/p/{{ slug }}" target="_blank" class="text-blue-500 hover:underline">View</a>
+    </p>
+
+    <!-- INDEX.HTML EDITOR -->
+    <h3 class="text-2xl font-semibold text-gray-800 mb-2">index.html</h3>
+
+    <form action="/admin/edit/{{ slug }}" method="post" class="mb-10">
+      <textarea name="html_content"
+        class="w-full h-80 p-4 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm">
+{{ index_html }}</textarea>
+
+      <button type="submit"
+        class="mt-4 px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow">
+        Save index.html
+      </button>
+    </form>
+
+    <!-- UPLOAD ASSETS -->
+    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Upload More Assets</h3>
+
+    <form action="/admin/upload_assets/{{ slug }}" method="post" enctype="multipart/form-data" class="space-y-6 mb-10">
+
+      <div>
+        <label class="block font-medium mb-1">CSS files:</label>
+        <input type="file" name="css_files" multiple accept=".css"
+          class="block w-full border rounded-lg p-2 bg-gray-50">
+      </div>
+
+      <div>
+        <label class="block font-medium mb-1">Image files:</label>
+        <input type="file" name="img_files" multiple accept="image/*"
+          class="block w-full border rounded-lg p-2 bg-gray-50">
+      </div>
+
+      <button type="submit"
+        class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow">
+        Upload Assets
+      </button>
+    </form>
+
+    <!-- CSS FILE LIST -->
+    <h3 class="text-2xl font-semibold text-gray-800 mb-4">CSS Files</h3>
+    <ul class="space-y-2 mb-10">
+      {% for f in css_files %}
+      <li class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+        <div class="flex items-center space-x-3">
+          <span class="font-mono">{{ f }}</span>
+          <a href="/static/{{ slug }}/css/{{ f }}" target="_blank"
+             class="text-blue-500 hover:underline">open</a>
+        </div>
+
+        <form action="/admin/delete_asset/{{ slug }}" method="post">
           <input type="hidden" name="file_type" value="css">
           <input type="hidden" name="filename" value="{{ f }}">
-          <button type="submit">Delete</button>
+          <button type="submit"
+            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded">
+            Delete
+          </button>
         </form>
       </li>
-    {% endfor %}
-  </ul>
+      {% endfor %}
+    </ul>
 
-  <h3>Image files</h3>
-  <ul>
-    {% for f in img_files %}
-      <li>
-        {{ f }}
-        <a href="/static/{{ slug }}/imgs/{{ f }}" target="_blank">[open]</a>
-        <form action="/admin/delete_asset/{{ slug }}" method="post" style="display:inline;">
+    <!-- IMAGE FILE LIST -->
+    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Image Files</h3>
+    <ul class="space-y-2">
+      {% for f in img_files %}
+      <li class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+        <div class="flex items-center space-x-3">
+          <span class="font-mono">{{ f }}</span>
+          <a href="/static/{{ slug }}/imgs/{{ f }}" target="_blank"
+             class="text-blue-500 hover:underline">open</a>
+        </div>
+
+        <form action="/admin/delete_asset/{{ slug }}" method="post">
           <input type="hidden" name="file_type" value="img">
           <input type="hidden" name="filename" value="{{ f }}">
-          <button type="submit">Delete</button>
+          <button type="submit"
+            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded">
+            Delete
+          </button>
         </form>
       </li>
-    {% endfor %}
-  </ul>
+      {% endfor %}
+    </ul>
+
+  </div>
+
 </body>
 </html>
