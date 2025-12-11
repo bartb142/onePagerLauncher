@@ -63,6 +63,10 @@ async def auth_exception_handler(request, exc: HTTPException):
     # For anything else, rethrow the exception
     raise exc
 
+@app.get("/", response_class=HTMLResponse)
+def root_page(request: Request):
+    return RedirectResponse("/admin/login")
+
 @app.get("/admin/login", response_class=HTMLResponse)
 def admin_login_page(request: Request):
     return templates.TemplateResponse("admin_login.html", {"request": request})
