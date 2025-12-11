@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Edit {{ slug }}</title></head>
+<body>
+  <h2>Edit page: {{ slug }}</h2>
+  <p><a href="/admin">Back</a> | <a href="/p/{{ slug }}" target="_blank">View</a></p>
+
+  <h3>index.html</h3>
+  <form action="/admin/edit/{{ slug }}" method="post">
+    <textarea name="html_content" style="width:100%;height:300px;">{{ index_html }}</textarea><br>
+    <button type="submit">Save index.html</button>
+  </form>
+
+  <h3>Upload more assets</h3>
+  <form action="/admin/upload_assets/{{ slug }}" method="post" enctype="multipart/form-data">
+    <label>CSS files:</label><br>
+    <input type="file" name="css_files" multiple accept=".css"><br><br>
+    <label>Image files:</label><br>
+    <input type="file" name="img_files" multiple accept="image/*"><br><br>
+    <button type="submit">Upload assets</button>
+  </form>
+
+  <h3>CSS files</h3>
+  <ul>
+    {% for f in css_files %}
+      <li>
+        {{ f }}
+        <a href="/static/{{ slug }}/css/{{ f }}" target="_blank">[open]</a>
+        <form action="/admin/delete_asset/{{ slug }}" method="post" style="display:inline;">
+          <input type="hidden" name="file_type" value="css">
+          <input type="hidden" name="filename" value="{{ f }}">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h3>Image files</h3>
+  <ul>
+    {% for f in img_files %}
+      <li>
+        {{ f }}
+        <a href="/static/{{ slug }}/imgs/{{ f }}" target="_blank">[open]</a>
+        <form action="/admin/delete_asset/{{ slug }}" method="post" style="display:inline;">
+          <input type="hidden" name="file_type" value="img">
+          <input type="hidden" name="filename" value="{{ f }}">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
